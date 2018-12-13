@@ -1,4 +1,5 @@
 import cv2
+import urllib
 import sys
 from keras.models import model_from_json
 import tensorflow as tf
@@ -25,13 +26,20 @@ print("Loaded model from disk")
 # Create the haar cascade
 faceCascade = cv2.CascadeClassifier(cascPath)
 
-cap = cv2.VideoCapture(0)
+url='http://192.168.100.13:8080/shot.jpg'
 
 img = np.zeros((200, 200, 3))
 ct = 0
 while(True):
     # Capture frame-by-frame
-    ret, frame = cap.read()
+    imgResp = urllib.request.urlopen(url)
+    
+    # Numpy to convert into a array
+    imgNp = np.array(bytearray(imgResp.read()),dtype=np.uint8)
+    
+    # Finally decode the array to OpenCV usable format ;) 
+    frame = cv2.imdecode(imgNp,-1)
+	
     ct+=1
     # Our operations on the frame come here
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -59,23 +67,23 @@ while(True):
         
         classes = np.argmax(res,axis=1)
         
-        if ct > 10:
-            if classes == 0:
-                ano = 'anger'
-            elif classes == 1:
-                ano = 'disgust'
-            elif classes == 2:
-                ano = 'fear'
-            elif classes == 3:
-                ano = "happy"
-            elif classes == 4:
-                ano = "neutral"
-            elif classes == 5:
-                ano = 'sadness'
-            else :
-                ano = 'surprised'
-            ct = 0
-            print(ano) 
+        
+        if classes == 0:
+            ano = 'anger'
+        elif classes == 1:
+            ano = 'disgust'
+        elif classes == 2:
+            ano = 'fear'
+        elif classes == 3:
+            ano = "happy"
+        elif classes == 4:
+            ano = "neutral"
+        elif classes == 5:
+            ano = 'sadness'
+        else :
+            ano = 'surprised'
+        ct = 0
+        print(ano) 
 
     # Display the resulting frame
     cv2.imshow('frame',frame)

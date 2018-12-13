@@ -1,10 +1,5 @@
 dataset/
 webapp/
-1/
-random_data.py
-vgg16.py
-train.py
-face_detect_cv3.py
-model/model_vgg16.h5
-model/model_vgg16.json
+assets/
+
 
