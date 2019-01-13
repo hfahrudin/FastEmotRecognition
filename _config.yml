@@ -1,1 +1,4 @@
 theme: jekyll-theme-cayman
+title: [Fast Emotion Recognition]
+description: [Emotion recognition can be brought to low spec devices or embedded system with good accuracy]
+show_downloads: ["true"]
