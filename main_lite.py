@@ -1,9 +1,6 @@
 import cv2
-import sys
 import tensorflow as tf
-from PIL import Image
 import numpy as np
-from scipy.misc import imread
 from skimage.transform import resize
 
 def crop_center(img, x, y, w, h):    
@@ -40,10 +37,10 @@ def brain(raw):
         ano = 'surprised'
     return ano
     
-    
+
 print('Loading ..')
 
-f = tf.contrib.lite.Interpreter("model.tflite")
+f = tf.contrib.lite.Interpreter("assets/model/model_optimized.tflite")
 f.allocate_tensors()
 i = f.get_input_details()[0]
 o = f.get_output_details()[0]
@@ -56,7 +53,7 @@ faceCascade = cv2.CascadeClassifier(cascPath)
 
 
 cap = cv2.VideoCapture(0)
-
+ai = 'anger'
 img = np.zeros((200, 200, 3))
 ct = 0
 while(True):
@@ -78,8 +75,9 @@ while(True):
     ano = ''    
     for (x, y, w, h) in faces:
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        if ct >10:
-            print(brain(gray))
+        cv2.putText(frame, ai, (x, y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+        if ct > 3:
+            ai = brain(gray)
             ct = 0
 
     # Display the resulting frame
