@@ -40,7 +40,7 @@ def brain(raw):
 
 print('Loading ..')
 
-f = tf.contrib.lite.Interpreter("assets/model/model_optimized.tflite")
+f = tf.contrib.lite.Interpreter("models/model_optimized.tflite")
 f.allocate_tensors()
 i = f.get_input_details()[0]
 o = f.get_output_details()[0]
