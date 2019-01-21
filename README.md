@@ -15,6 +15,6 @@ Inception and VGG16 averaging around 0.05 fps (i should have make documentation 
 To fit my implementation, i use tensorflow-lite to boost my fps. I got 3 fps after converting my tensorflow model to tf-lite model. It's tricky to install tensorflow + tflite in raspi 3 so feel free to ask me.
 
 Dependencies:
-python 3.5
-tensorflow + tflite for raspberry pi
-opencv 3.2
+1. python 3.5
+2. tensorflow + tflite for raspberry pi
+3. opencv 3.2
