@@ -13,7 +13,7 @@ def preprocess_img(raw):
         img = img/255.0
     return img
 
-def brain(raw):
+def brain(raw, x, y, w, h):
     ano = ''
     img = crop_center(raw, x, y , w , h)
     img = preprocess_img(img)
@@ -77,7 +77,7 @@ while(True):
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
         cv2.putText(frame, ai, (x, y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
         if ct > 3:
-            ai = brain(gray)
+            ai = brain(gray, x, y, w, h)
             ct = 0
 
     # Display the resulting frame
