@@ -28,8 +28,7 @@ def _preprocess_img(raw):
 
 def _parse_result(res):
     cat = ['anger', 'disgust', 'fear', 'happy', 'neutral', 'sadness', 'surprised']
-    classes = np.argmax(res,axis=1)
-    return dict(zip(cat, res[0])), cat[classes[0]]
+    return dict(zip(cat, res[0]))]
     
 def predict(img):
     
