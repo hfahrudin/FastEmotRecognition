@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="facex", # Replace with your own username
-    version="0.0.6",
+    name="hfahrudin", # Replace with your own username
+    version="0.0.7",
     author="Hasby Fahrudin",
     author_email="fahrudinhasby12@gmail.com",
     description="Facial Expression Classifier API",
