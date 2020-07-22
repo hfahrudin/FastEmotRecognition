@@ -4,7 +4,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 facex/__pycache__
-facex/model_optimized.tflite
+facex/model.tflite
 *.py[cod]
 *$py.class
 
