@@ -1,14 +1,17 @@
 import setuptools
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+from os import path
+
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setuptools.setup(
-    name="hfahrudin", # Replace with your own username
-    version="0.0.7",
+    name="facex", # Replace with your own username
+    version="1.0.0",
     author="Hasby Fahrudin",
     author_email="fahrudinhasby12@gmail.com",
-    description="Facial Expression Classifier API",
+    description="Facial Expression Classifier API powered by Tensorflow",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/hfahrudin/facex",
