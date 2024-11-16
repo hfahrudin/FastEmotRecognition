@@ -2,7 +2,7 @@
 import numpy as np
 import pathlib
 import os
-from facex.utils import _preprocess_img
+from facex.utils import _preprocess_img, _parse_result
 
 weight = os.path.join(pathlib.Path(__file__).parent.absolute(), "model_optimized.tflite")
 
@@ -21,9 +21,6 @@ output_details = interpreter.get_output_details()
 
 
 
-def _parse_result(res):
-    cat = ['anger', 'disgust', 'fear', 'happy', 'neutral', 'sadness', 'surprised']
-    return dict(zip(cat, res[0]))
     
 def predict(img):
     
