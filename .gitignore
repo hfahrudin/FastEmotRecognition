@@ -30,3 +30,5 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+*ipynb
+*tflite
