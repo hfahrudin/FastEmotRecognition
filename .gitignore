@@ -1,5 +1,6 @@
 dataset/
 webapp/
 assets/
+*.ipynb
 
 
