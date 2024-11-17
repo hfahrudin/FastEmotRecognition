@@ -11,8 +11,7 @@ def input_resize(raw):
     return img
 
 
-def parse_result(res):
-    cat = ['anger', 'disgust', 'fear', 'happy', 'neutral', 'sadness', 'surprised']
+def parse_result(res, cat):
     return dict(zip(cat, res[0]))
 
 

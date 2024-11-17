@@ -6,11 +6,12 @@ from concurrent.futures import ThreadPoolExecutor
 import threading
 from facex.utils import create_interpreter, parse_result, input_resize
 
+
 class EmotionClassifier:
     """
     A worker for predicting emotions.
     """
-    def __init__(self, model_path):
+    def __init__(self, model_path, category = None):
         """
         Initialize the EmotionClassifier with the given model path.
         
@@ -18,6 +19,7 @@ class EmotionClassifier:
             model_path (str): Path to the pre-trained model.
         """
         self.model = create_interpreter(model_path)
+        self.category =  category if category else ['anger', 'disgust', 'fear', 'happy', 'neutral', 'sadness', 'surprised']
         self.input_details = self.model.get_input_details()
         self.output_details = self.model.get_output_details()
 
@@ -42,7 +44,7 @@ class EmotionClassifier:
 
         # Retrieve and parse the output
         output_data = self.model.get_tensor(self.output_details[0]['index'])
-        return parse_result(output_data)
+        return parse_result(output_data, self.category)
 
 
 class PoolManager:
@@ -61,6 +63,8 @@ class PoolManager:
         self.lock = threading.Lock()
         self.pool = [EmotionClassifier(self.model_path) for _ in range(pool_size)]
         self.executor = ThreadPoolExecutor(max_workers=pool_size)
+        self.dedicated_workers = {}  # Store workers that are allocated to users
+
 
     def get_classifier(self):
         """
@@ -102,6 +106,53 @@ class PoolManager:
         finally:
             # Ensure the classifier is returned to the pool
             self.release_classifier(classifier)
+
+    def get_worker(self, user_id):
+        """
+        Allocate a dedicated classifier to a user.
+
+        Args:
+            user_id (str): The ID of the user requesting the dedicated worker.
+
+        Returns:
+            EmotionClassifier: The assigned classifier.
+        
+        Raises:
+            RuntimeError: If the user already has a dedicated worker.
+        """
+        with self.lock:
+            if user_id in self.dedicated_workers:
+                raise RuntimeError(f"User {user_id} already has a dedicated worker.")
+            
+            # Assign a worker from the pool
+            if not self.pool:
+                raise RuntimeError("No available classifiers in the pool.")
+            
+            worker = self.pool.pop()
+            self.dedicated_workers[user_id] = worker
+            return worker
+        
+    def release_worker(self, user_id):
+        """
+        Release a dedicated classifier back into the pool.
+
+        Args:
+            user_id (str): The ID of the user releasing the worker.
+        
+        Raises:
+            KeyError: If the user doesn't have a dedicated worker.
+        """
+        with self.lock:
+            if user_id not in self.dedicated_workers:
+                raise KeyError(f"User {user_id} does not have a dedicated worker.")
+            
+            # Retrieve the dedicated worker for the user
+            worker = self.dedicated_workers.pop(user_id)
+            
+            # Return the worker to the pool
+            self.pool.append(worker)
+            print(f"Worker released for user {user_id}, returned to the pool.")
+
 
     def shutdown(self):
         """
