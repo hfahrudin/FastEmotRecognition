@@ -5,7 +5,7 @@
 
 ## Features
 - **Face Detection**: Uses Haar cascades to detect faces in images.
-- **Emotion Classification**: Predicts emotions like anger, happiness, sadness, and more using a pre-trained TensorFlow Lite model.
+- **Emotion Classification**: Predicts emotions like anger, happiness, sadness, and more.
 - **Thread-Safe Pooling**: Manages multiple classifiers through a thread-safe object pool.
 - **Dedicated Worker Allocation**: Assign dedicated classifiers for specific tasks or users.
 
