@@ -1,1 +1,1 @@
-from .core import PoolManager
+from .core import PoolManager, EmotionClassifier

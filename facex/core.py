@@ -4,8 +4,8 @@ import pathlib
 import os
 from concurrent.futures import ThreadPoolExecutor
 import threading
-from facex.utils import create_interpreter, parse_result, input_resize
-
+from facex.utils import create_interpreter, parse_result, input_resize, crop_center
+import cv2
 
 class EmotionClassifier:
     """
@@ -22,18 +22,30 @@ class EmotionClassifier:
         self.category =  category if category else ['anger', 'disgust', 'fear', 'happy', 'neutral', 'sadness', 'surprised']
         self.input_details = self.model.get_input_details()
         self.output_details = self.model.get_output_details()
+        self.cascPath = os.path.join(pathlib.Path(__file__).parent.absolute(), "assets/haarcascade_frontalface_default.xml")
+        self.faceCascade = cv2.CascadeClassifier(self.cascPath)
 
-    def predict(self, input):
+    def _preprocess_frame(self, input):
         """
-        Predict the emotion based on the input data.
-        
+        Resize and convert the frame to grayscale.
+
         Args:
-            input (np.ndarray): Input data for emotion classification.
-        
+            input (np.ndarray): Original frame from the video feed.
+
         Returns:
-            dict: Parsed result of the prediction.
+            np.ndarray: Preprocessed grayscale frame.
         """
-        # Preprocess and prepare input data
+        gray_frame = cv2.cvtColor(input, cv2.COLOR_BGR2GRAY)
+        return gray_frame
+
+    def detect_faces(self, input):
+        # Detect faces in the image
+        procs_input = self._preprocess_frame(input)
+
+        faces = self.faceCascade.detectMultiScale(procs_input, 1.1, 4)
+        return faces, procs_input
+    
+    def detect_emotion(self, input):
         input_data = np.array(input_resize(input), dtype=np.float32)
 
         # Set the input tensor for the model
@@ -44,7 +56,30 @@ class EmotionClassifier:
 
         # Retrieve and parse the output
         output_data = self.model.get_tensor(self.output_details[0]['index'])
+
         return parse_result(output_data, self.category)
+    
+    def predict(self, input):
+        """
+        Predict the emotion based on the input data.
+        
+        Args:
+            input (np.ndarray): Input data for emotion classification.
+        
+        Returns:
+            dict: Parsed result of the prediction.
+        """
+        faces, procs_input = self.detect_faces(input)
+        predictions = []
+
+        for (x, y, w, h) in faces:
+            #get faces
+            face = crop_center(procs_input, x, y, w, h)
+            # Preprocess and prepare input data
+            emot = self.detect_emotion(face)
+            predictions.append({'bbox': (x, y, w, h), 'emot': emot})
+
+        return predictions
 
 
 class PoolManager:
@@ -58,7 +93,7 @@ class PoolManager:
         Args:
             pool_size (int): Number of EmotionClassifier instances in the pool.
         """
-        self.model_path = os.path.join(pathlib.Path(__file__).parent.absolute(), "model_optimized.tflite")
+        self.model_path = os.path.join(pathlib.Path(__file__).parent.absolute(), "assets/model_optimized.tflite")
         self.pool_size = pool_size
         self.lock = threading.Lock()
         self.pool = [EmotionClassifier(self.model_path) for _ in range(pool_size)]

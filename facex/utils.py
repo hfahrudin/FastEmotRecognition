@@ -22,3 +22,7 @@ def create_interpreter(model_path):
     interpreter = tf.lite.Interpreter(model_path=model_path)
     interpreter.allocate_tensors()
     return interpreter
+
+
+def crop_center(img, x, y, w, h):    
+    return img[y:y+h,x:x+w]
