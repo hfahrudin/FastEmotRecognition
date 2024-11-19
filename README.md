@@ -144,7 +144,5 @@ pytest
 ## License
 **facex** is licensed under the MIT License. See the `LICENSE` file for details.
 
----
-
 ## Support
 If you encounter any issues, feel free to [open an issue](https://github.com/hfahrudin/facex/issues) or reach out via email.
