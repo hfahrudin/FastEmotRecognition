@@ -1,1 +1,1 @@
-from .facex import *
+from .core import PoolManager, EmotionClassifier

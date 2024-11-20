@@ -4,9 +4,10 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 facex/__pycache__
-facex/model_optimized.tflite
+facex/assets/*
 *.py[cod]
 *$py.class
+*venv
 
 # C extensions
 *.so
@@ -29,6 +30,6 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
-*.tflite
-*.ipynb
-*env
+*ipynb
+*tflite
+*cache
