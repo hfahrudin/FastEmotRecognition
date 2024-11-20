@@ -123,24 +123,6 @@ A class for managing a pool of EmotionClassifier instances, enabling thread-safe
 - **`shutdown()`**: 
   Shuts down the pool manager and frees all resources, including threads.
 
-
-
-## Development
-
-### Testing
-Run unit tests with `pytest`:
-```bash
-pip install pytest
-pytest
-```
-
-### Contribution Guidelines
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature`).
-3. Commit your changes (`git commit -m "Add your feature"`).
-4. Push to the branch (`git push origin feature/your-feature`).
-5. Submit a pull request.
-
 ## License
 **facex** is licensed under the MIT License. See the `LICENSE` file for details.
 
