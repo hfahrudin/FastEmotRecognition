@@ -1,5 +1,4 @@
 import setuptools
-
 from os import path
 
 this_directory = path.abspath(path.dirname(__file__))
@@ -21,7 +20,10 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    include_package_data=True,
+    include_package_data=True,  # Ensure this is True
+    package_data={
+        "facex": ["assets/*.tflite", "assets/*.xml"],  # Include specific files
+    },
     install_requires=[
         'scikit-image>=0.16.2',
         'tensorflow>=2.0.0',
