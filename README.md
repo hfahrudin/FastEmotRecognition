@@ -11,6 +11,11 @@
 - **Thread-Safe Pooling**: Manages multiple classifiers through a thread-safe object pool.
 - **Dedicated Worker Allocation**: Assign dedicated classifiers for specific tasks or users.
 
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/25025173/51177457-37460a00-18f2-11e9-8858-9c51f6c987a1.gif" alt="Alt Text" width="500"/>
+    <p><i>Testing on RaspberryPi</i></p>
+</div>
+
 ## Installation
 
 Install the library via pip:
