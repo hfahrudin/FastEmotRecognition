@@ -1,5 +1,8 @@
-
 ## Facex: Lightweight, High-Performance Facial Expression Classifier
+
+**facex** is a Python library for detecting faces and classifying emotions in images lightweight, efficient threading and object pooling for concurrent processing making it suitable for high-performance applications. 
+
+**NOTE:**  The model was trained some time ago. While it performs well, newer advancements in the field may offer improved results
 
 ## Features
 - **Face Detection**: Uses Haar cascades to detect faces in images.
