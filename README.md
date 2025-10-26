@@ -136,7 +136,7 @@ A class for managing a pool of EmotionClassifier instances, enabling thread-safe
 
 ## References
 
-1. **Coordinated Multi-Agent Imitation Learning**  
+1. **Deep learning based facial expressions recognition system for assisting visually impaired persons**  
    Hendra Kusuma, Muhammad Attamimi, Hasby Fahrudin (2020). *Deep learning based facial expressions recognition system for assisting visually impaired persons*. Retrieved from [link](https://www.researchgate.net/publication/341796937_Deep_learning_based_facial_expressions_recognition_system_for_assisting_visually_impaired_persons)
 
 ## Support
